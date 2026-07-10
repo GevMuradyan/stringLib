@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include <stdlib.h>
 
 
 int main()
@@ -35,6 +34,15 @@ int main()
     my_strncpy(dest2, "Hello", 10);
 
     printf("Result: %s\n\n", dest2);
+
+    printf("========== my_strncmp ==========\n");
+
+    printf("abc vs abc (3 chars) = %d\n",
+    my_strncmp("abc", "abc", 3));
+
+    printf("abc vs abd (2 chars) = %d\n",
+    my_strncmp("abc", "abd", 2));
+    printf("\n");
 
 
 

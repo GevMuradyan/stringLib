@@ -1,5 +1,5 @@
-#ifndef STRING_UTILISH_H
-#define STRING_UTILISH_H
+#ifndef STRING_UTILSH_H
+#define STRING_UTILSH_H
 #include <stddef.h>
 
 size_t my_strlen(const char* str);
@@ -7,6 +7,7 @@ char* my_strcpy(char* dest, const char* str);
 char* my_strncpy(char * dest, const char* str, int n);
 char* my_strcat(char* dest, const char* str);
 int my_strcmp(const char* str1, const char *str2);
+int my_strncmp(const char *str1, const char *str2, size_t n);
 char* my_strchr(const char* str, int ch);
 char* my_strrchr(const char* str, int ch);
 char* my_strstr(const char* haystack, const char* needle);

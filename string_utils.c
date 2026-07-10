@@ -2,27 +2,29 @@
 
 size_t my_strlen(const char* str){
     size_t count = 0;
-    size_t i = 0;
     while(1){
-        if(str[i] == '\0'){
+        if(str[count] == '\0'){
             return count;
         }
         count++;
-        i++;
     }
 }
 
-char* my_strcpy(char* dest, const char* str){
+char* my_strcpy(char* dest,const char* src)
+{
     size_t i = 0;
-    while(1){
-        if(str[i] == '\0'){
-            dest[i] = str[i];
-            return dest;
-        }
-        dest[i] = str[i];
+
+    while(src[i] != '\0')
+    {
+        dest[i] = src[i];
         i++;
     }
+
+    dest[i]='\0';
+
+    return dest;
 }
+
 
 char* my_strncpy(char * dest, const char* str, int n){
     size_t i = 0;
@@ -42,7 +44,10 @@ char* my_strcat(char* dest, const char* str){
     size_t i = my_strlen(dest);
     size_t j = 0;
 
-    while(str[j] != '\0'){
+    while(str[j] != '\0' ){
+        if(dest[i] == '\0'){
+            return dest;
+        }
         dest[i] = str[j];
         i++;
         j++;
@@ -63,28 +68,48 @@ int my_strcmp(const char* str1, const char*str2){
     return  str1[i] - str2[i];
     }
 
+int my_strncmp(const char *str1, const char *str2, size_t n){
+    for(size_t i = 0; i < n; ++i){
+        if(str1[i] != str2[i]){
+            return str1[i] - str2[i];
+        }
+        if(str1[i] == '\0'){
+            return 0;
+        }
+
+    }
+    return 0;
+}
+
 char* my_strchr(const char* str, int ch){
     size_t i = 0;
-    while(str[i] != '\0'){
+    while(1){
         if(str[i] == ch){
             return (char*)&str[i];
+            break;
+        }
+        if(str[i] == '\0'){
+            return NULL;
         }
         ++i;
     }
-    return NULL;
 }
 
 char* my_strrchr(const char* str, int ch){
     size_t i = 0;
     char* res = NULL;
-    while(str[i] != '\0'){
+    while(1){
         if(str[i] == ch){
             res = (char*)&str[i];
+        }
+        if(str[i] == '\0'){
+            break;
         }
         ++i;
     }
     return res;
 }
+
 char* my_strstr(const char* haystack, const char* needle){
 
     size_t i = 0;
@@ -92,40 +117,28 @@ char* my_strstr(const char* haystack, const char* needle){
     size_t pos = 0;
 
     size_t len = my_strlen(needle);
-
-
     if(len == 0)
     {
         return (char*)haystack;
     }
-
-
     while(haystack[i] != '\0')
     {
         if(haystack[i] == needle[0])
         {
             pos = i;
             j = 0;
-
-
             while(needle[j] != '\0' &&
                   haystack[i] == needle[j])
             {
                 i++;
                 j++;
             }
-
-
             if(j == len)
             {
                 return (char*)&haystack[pos];
             }
-
-
             i = pos;
         }
-
-
         i++;
     }
 
@@ -134,7 +147,7 @@ char* my_strstr(const char* haystack, const char* needle){
 }
 
 int my_strspn(const char* str, const char* accept){
-    int count = 0;
+    size_t count = 0;
     int find = 0;
     size_t len_str = my_strlen(str);
     size_t len_accept = my_strlen(accept);
@@ -184,10 +197,6 @@ char* my_strpbrk(const char *str, const char *accept){
 }
     
 static char* second_address ;
-
-static char* second_address = NULL;
-
-
 char* my_strtok(char *str, const char *delim)
 {
     if(str != NULL){
@@ -196,37 +205,31 @@ char* my_strtok(char *str, const char *delim)
     else{
         str = second_address;
     }
-
-
+     
     if(str == NULL){
         return NULL;
-    }
-
-
+    }  
     size_t len_delim = my_strlen(delim);
-
     size_t i = 0;
-
 
     while(str[i] != '\0'){
         for(size_t j = 0; j < len_delim; j++){
             if(str[i] == delim[j]){
                 str[i] = '\0';
-
+                
                 second_address = &str[i + 1];
-
+                
                 return str;
             }
         }
 
         i++;
     }
-
-
     second_address = NULL;
-
+    
     return str;
 }
+
 int my_count_char(const char *str, char ch){
     size_t count = 0;
     size_t i = 0;
@@ -288,7 +291,11 @@ int my_strlastindex(const char *str, char ch){
 
 void my_strreverse(char *str){
     size_t i = 0;
-    size_t j = my_strlen(str) - 1;
+    size_t len = my_strlen(str);
+    if(len == 0){
+        return ;
+    }
+    size_t j = len - 1;
     char tmp;
     while(i < j){
             tmp = str[i];
@@ -323,7 +330,11 @@ void my_strreverse(char *str){
 
 int my_strpalindrome(const char *str){
     size_t i = 0;
-    size_t j = my_strlen(str) - 1;
+    size_t len = my_strlen(str);
+    if(len == 0){
+        return 1;
+    }
+    size_t j = len - 1;
     while(i < j){
         if(str[i] != str[j]){
             return 0;
